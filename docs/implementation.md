@@ -2,20 +2,8 @@
 title: Implementation
 ---
 
-## Why pact framework?
-
-| Feature       					| Pact          | Restdocs  | Swagger 	|
-| --------------------------------- | ------------- | --------- | ---------	|
-| Live Doku      					| ja	 		| ja		| nein		|
-| HATEOAS Support      				| ja		    | ja 		| nein 		|
-| Integration/ Maintainance effort 	| gross      	| gross 	| gross		|
-| Contracts							| nein			| nein		| nein		|
-| Versionierung 					| ja			| jein		| jein		|
-| Universelles Konzept 				| ja			| jein		| nein		|
-
-
 ## DSL
-
+Pact provides an easy to use DSL to write your customer expectations.
 
 
 ### Headers
@@ -23,9 +11,9 @@ The Pact DSL offers a convinient way to do a matching on request and response he
 
 ```
 .given("default")
-				.uponReceiving("retrieving goal data")
-				.path("/goals")
-				.headers(requestHeaders)
+	.uponReceiving("retrieving goal data")
+	.path("/goals")
+	.headers(requestHeaders)
 ```
 
 ### Authentication
@@ -33,53 +21,67 @@ Sometimes you may need to add things to the requests that can't be persisted in 
 
 ```
 @TargetRequestFilter
-	public void exampleRequestFilter(HttpRequest request) {
-		request.addHeader("Authorization", "OAUTH hdsagasjhgdjashgdah...");
-	}
+public void exampleRequestFilter(HttpRequest request) {
+	request.addHeader("Authorization", "OAUTH hdsagasjhgdjashgdah...");
+}
 ```
 
 ## Pact Broker
-How do we share these Pacts?
-- Email works pretty well (even at Mobi)
-- But no versioning, more and more services
+How do could we share Pacts?
+Sharing contracts by email works pretty well. But as soon as you have more and more services using pact, you need some kind of versioning for your pacts.
+The soulution is called <a href="https://github.com/pact-foundation/pact_broker">Pact Broker</a>.
 
-Solution: Pact Broker!
-- Not just a file storage
+A Pact Broker offers isn't just a file storage:
+
+- The Broker provides Versioning, Tagging, Rest-API
 - Dependency Graph 
 - Living documentation for free - For every new pact
-- Build Pipeline integration -> The Broker provides Versioning, Tagging, Rest-API
+- Build Pipeline integration
 
-How to public pact files:
-- configure maven plugin https://github.com/DiUS/pact-jvm/tree/master/pact-jvm-provider-maven
+<a href="https://pact-broker.cdc.panter.biz/">Example Broker</a>
+
+
+### How to setup a pact broker:
+- ``docker pull dius/pact-broker``
+- Setup a postgres database
+- Ready to go
+
+### How to publish pact files to the broker:
 - Configure brokerUrl and pactDirectory
-- run mvn pact:publish to push your contracts to the broker
-- run mvn pact:verify to pull all the contracts and verify your provider against it
+- Run mvn pact:publish to push your contracts to the broker
 
-https://github.com/pact-foundation/pact_broker
-
-How to setup a pact broker:
-- docker pull dius/pact-broker
-- setup a postgres database
-- Set environment variables in order to connect to a postgres db
-- https://github.com/DiUS/pact_broker-docker
-
-Publish results of a provider verificatio with setting the following system property:
+### How to pull pact files from the broker:
+- Run mvn pact:verify to pull all the contracts and verify your provider against it
+- Publish results of a provider verification with setting the following system property:
 ``-Dpact.verifier.publishResults=true``
-
-
 
 ## How to add new interactions without breaking everything
 
 In summary: keep the CI running against a stable version of the pact, while simultaneously providing a new version for the provider team so they can update their code and provider states.
 Once both the stable and the new versions of the pact are green, the new version can be published as the stable version.
 
-- from https://github.com/pact-foundation/pact_broker/wiki/Using-tags
+
 - Tags can be used to enable you to add new interactions without breaking all the builds. This approach works well if you use feature branches for development, and release from a production branch.
 - Tags can be used to enable you to test consumer and provider head and prod versions against each other. 
 
 Tagging approaches
-- Automatically tag with branch name when pact is published (`git rev-parse --abbrev-ref HEAD`)
+- Automatically tag with branch name when pact is published
 - Manually tag production or feature pacts (no tagging for each environment needed since pacts only run on integration)
+
+ Source: <a href="https://github.com/pact-foundation/pact_broker/wiki/Using-tags">Pact Foundation - Using tags</a>
+
+
+ ## Pact in comparison to other API testing/documentation frameworks
+
+| Feature       					| Pact          | Restdocs  | Swagger 	|
+| --------------------------------- | ------------- | --------- | ---------	|
+| Live Documentation      			| yes	 		| yes		| no		|
+| HATEOAS Support      				| yes		    | yes 		| no 		|
+| Integration/ Maintainance effort 	| high      	| high 		| low		|
+| Contracts							| no			| no		| no		|
+| Versioning	 					| yes			| partly	| partly	|
+| Universallity 					| yes			| partly	| no		|
+
 
 
 ## Experiences
@@ -91,7 +93,7 @@ Tagging approaches
 
 ## Pitfalls
 ::: warning Pitfalls
-- Provider state setup for each interaction (Pre conditions, state (even if it should be stateless)
+- Provider state setup for each interaction (Pre conditions, state  - even if it should be stateless)
 - Getting used to DSL is hard
 - Don't limit to happy path (Response code when user from UserService doesn't exist)
 - Automation isn't trivial (Pipeline)

@@ -30,7 +30,7 @@ Write your expectations to the provider in form of a unit test:
 @Pact(provider="GoalProvider", consumer="GoalConsumer")
 public RequestResponsePact getGoalPact(PactDslWithProvider builder) {
 
-	final DslPart body = LambdaDsl.newJsonArray((rootArray) ->{
+final DslPart body = LambdaDsl.newJsonArray((rootArray) ->{
 	rootArray.object((goal) -> {
 		goal.stringType("description","stop smoking");
 		goal.decimalType("amount",new Double("10.00"));
@@ -40,9 +40,9 @@ public RequestResponsePact getGoalPact(PactDslWithProvider builder) {
 			personObj.stringType("lastName","Panter");
 			personObj.stringType("paymentToken","xyz");
 			personObj.stringType("email","example@example.com");
-			}));
-		});
-	}).build();
+		}));
+	});
+}).build();
 
 	return builder
 		.given("default")
@@ -54,7 +54,7 @@ public RequestResponsePact getGoalPact(PactDslWithProvider builder) {
 		.status(200)
 		.body(body)
 		.toPact();
-	}
+}
 
 ```
 
