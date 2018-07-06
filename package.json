@@ -1,0 +1,24 @@
+{
+  "name": "cdc-doc",
+  "version": "1.0.0",
+  "description": "Consumer Driven Contract Testing Documentation",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "docs:build": "vuepress build docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdrianKrebs/cdc-docs.git"
+  },
+  "author": "Adrian Krebs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdrianKrebs/cdc-docs/issues"
+  },
+  "dependencies": {
+    "vuepress": "^0.10.2"
+  }
+}
