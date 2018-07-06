@@ -31,12 +31,14 @@ How do could we share Pacts?
 Sharing contracts by email works pretty well. But as soon as you have more and more services using pact, you need some kind of versioning for your pacts.
 The soulution is called <a href="https://github.com/pact-foundation/pact_broker">Pact Broker</a>.
 
-A Pact Broker offers isn't just a file storage:
+A Pact Broker isn't just a file storage:
 
 - The Broker provides Versioning, Tagging, Rest-API
 - Dependency Graph 
 - Living documentation for free - For every new pact
 - Build Pipeline integration
+
+![broker](broker.jpg)
 
 <a href="https://pact-broker.cdc.panter.biz/">Example Broker</a>
 
@@ -101,7 +103,7 @@ Tagging approaches
 
 
 ## Limitations
-- Limited Media Type support
+- Limited Media Type support (no XML)
 - No Websocket support
 
 
