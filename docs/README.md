@@ -1,8 +1,12 @@
 ---
 description: How to avoid Microservice integration hell
 home: true
+heroImage: /agreement.svg
 actionText: Get Started →
 actionLink: /intro.html
-footer: MIT Licensed | Copyright © 2018-present Adrian Krebs
+footer: Ausbildungsprogramm @Panter Adrian Krebs
 ---
 
+<div style="text-align: center">
+
+</div>

@@ -83,20 +83,23 @@ Tagging approaches
 
 
 ## Experiences
+::: tip Experiences
 - Increases confidence when coding & deploying (CD)
 - Collaborative API design
 - Living API documentation
+:::
 
 ## Pitfalls
+::: warning Pitfalls
 - Provider state setup for each interaction (Pre conditions, state (even if it should be stateless)
 - Getting used to DSL is hard
 - Don't limit to happy path (Response code when user from UserService doesn't exist)
 - Automation isn't trivial (Pipeline)
+:::
 
 
 ## Limitations
 - Limited Media Type support
-- No Websocket Support
-- HTTP2 differences?
+- No Websocket support
 
 

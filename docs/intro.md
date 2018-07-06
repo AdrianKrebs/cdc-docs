@@ -4,39 +4,50 @@ title: Introduction
 
 # Introduction to CDC Testing
 
-- Monolith -> detect breaking changes at compile time
-- Micorservice -> detect breaking changes at runtime
+In order to countiniously and independently deploy software, the microservice architecture became state of the art for large scale enterprise applications.
 
-Provider changes interface, refactors, refactors tests as well, everything green
-CI/CD Pipline all tests are passing
-GO FOR Production!
-Monitoring shows no Errors in UserService
+![architecture](microservice.jpg)
+- <b>Monolith: </b>detect breaking changes at <b>compile time</b>
+- <b>Micorservice: </b>detect breaking changes at <b>runtime</b>
 
-But suddenly the LoginService fails every requst...
-Blaming starts...
-Maybe we should have tested this!
-Test what?
+Imagine the following situation: </br>
+Provider changes his interface, refactors, refactors tests as well, everything green </br>
+In the providers CI/CD pipline, all tests are passing </br>
+GO FOR Production! </br>
+Monitoring shows no Errors for the ProviderService</br>
 
-Obvious Solution: Service Tests -> Start the frontend, oh it needs IP-Check-Service, oh we need test-data... oh we need tokens, certificates, authentication
-Nightmare! Results in a full E2E test. We only wanted test the interaction between the two services!
-We want to know very early that we break something, AND we want to know it fast!
+But suddenly the ConsumerService fails every request...</br>
+Blaming starts...</br>
+Maybe we should have tested this!</br>
+But how?</br>
 
-Contracts come into play.
+Obvious Solution: Service Tests  </br>
+Start the frontend, oh it needs IP-Check-Service, oh we need test data... oh we need tokens, certificates, authentication, ...</br>
+What a nightmare! This results in a full E2E test. We only wanted test the interaction between the two services!</br>
+We want to know very early that we break something AND we want to know it fast!
 
-Pact Framework (no real alternative). Implementations for most languages (IOS App as Consumer, Java or Ruby as Provider -> no problem)
-Verification philosophy: Tolerant Reader! (more fields are ignored)
+<b>Contracts come into play</b>
+
+![teams](teams.jpg)
+
+The <a href="https://docs.pact.io">Pact Framework</a> (no real alternative) offers CDC testing implementations for most languages (Java, Javascript, Ruby, Swift, Android, Go). <br>
+
 
 ## Provider Workflow
-- <b>Goal</b>: Don't deploy breaking changes
+<b>Goal</b>: Don't deploy breaking changes
 - Implements Changes
-- Get Pacts from Broker 
-- Replay and Verify Interactions -> Stop introduction of breaking change very early
+- Get contracts from all consumers 
+- Replay and verify interactions - Stop introduction of breaking change very early
 - deploy service
 
 ## Consumer Workflow
-- <b>Goal</b>: Dont consume resources which are not provided
+<b>Goal</b>: Dont consume resources which are not provided
 - Implement changes
-- Generate Pacts (Build)
-- Push Pacts to Broker
-- Each Provider verifies Pact
+- Generate contract
+- Push contract to provider
+- Each provider verifies contracts
 - deploy service 
+
+::: tip
+Use the <a href="https://martinfowler.com/bliki/TolerantReader.html">Tolerant Reader Pattern</a> as a verification philosophy (unnecessary fields are ignored)
+:::
