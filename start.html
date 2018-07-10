@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Getting Started | Consumer Driven Contracts</title>
+    <meta name="description" content="">
+    
+    
+    <link rel="preload" href="/cdc-docs/assets/css/4.styles.308e5972.css" as="style"><link rel="preload" href="/cdc-docs/assets/js/app.96813fdf.js" as="script"><link rel="preload" href="/cdc-docs/assets/js/0.e62d8754.js" as="script"><link rel="prefetch" href="/cdc-docs/assets/js/1.d2b9b925.js"><link rel="prefetch" href="/cdc-docs/assets/js/2.a2d0e325.js"><link rel="prefetch" href="/cdc-docs/assets/js/3.3672a43d.js">
+    <link rel="stylesheet" href="/cdc-docs/assets/css/4.styles.308e5972.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/cdc-docs/" class="home-link router-link-active"><!----><span class="site-name">
+      Consumer Driven Contracts
+    </span></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><!----></div></header><div class="sidebar-mask"></div><div class="sidebar"><!----><ul class="sidebar-links"><li><a href="/cdc-docs/intro.html" class="sidebar-link">Introduction</a></li><li><a href="/cdc-docs/start.html" class="active sidebar-link">Getting started</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/cdc-docs/start.html#service-consumer" class="sidebar-link">Service Consumer</a></li><li class="sidebar-sub-header"><a href="/cdc-docs/start.html#service-provider" class="sidebar-link">Service Provider</a></li></ul></li><li><a href="/cdc-docs/implementation.html" class="sidebar-link">Implementation</a></li></ul></div><div class="page"><div class="content"><h1 id="getting-started"><a href="#getting-started" aria-hidden="true" class="header-anchor">#</a> Getting Started</h1><p>The following samples are written in Java with Junit5. See <a href="https://docs.pact.io/implementation-guides">implementation guide</a> for other languages.</p><h2 id="service-consumer"><a href="#service-consumer" aria-hidden="true" class="header-anchor">#</a> Service Consumer</h2><p>Add the following dependency to your pom.xml:</p><div class="language- extra-class"><pre class="language-text"><code>&lt;dependency&gt;
+      &lt;groupId&gt;au.com.dius&lt;/groupId&gt;
+      &lt;artifactId&gt;pact-jvm-consumer-junit5_2.12&lt;/artifactId&gt;
+      &lt;version&gt;3.5.17&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+      &lt;groupId&gt;au.com.dius&lt;/groupId&gt;
+      &lt;artifactId&gt;pact-jvm-consumer-java8_2.12&lt;/artifactId&gt;
+      &lt;version&gt;3.5.18&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre></div><p>Write your expectations to the provider in form of a unit test:</p><div class="language- extra-class"><pre class="language-text"><code>@Pact(provider=&quot;GoalProvider&quot;, consumer=&quot;GoalConsumer&quot;)
+public RequestResponsePact getGoalPact(PactDslWithProvider builder) {
+
+final DslPart body = LambdaDsl.newJsonArray((rootArray) -&gt;{
+	rootArray.object((goal) -&gt; {
+		goal.stringType(&quot;description&quot;,&quot;stop smoking&quot;);
+		goal.decimalType(&quot;amount&quot;,new Double(&quot;10.00&quot;));
+		goal.date(&quot;deadline&quot;);
+		goal.object(&quot;person&quot;, (personObj -&gt; {
+			personObj.stringType(&quot;firstName&quot;,&quot;Herbert&quot;);
+			personObj.stringType(&quot;lastName&quot;,&quot;Panter&quot;);
+			personObj.stringType(&quot;paymentToken&quot;,&quot;xyz&quot;);
+			personObj.stringType(&quot;email&quot;,&quot;example@example.com&quot;);
+		}));
+	});
+}).build();
+
+	return builder
+		.given(&quot;default&quot;)
+		.uponReceiving(&quot;retrieving goal data&quot;)
+		.path(&quot;/goals&quot;)
+		.headers(requestHeaders)
+		.method(&quot;GET&quot;)
+		.willRespondWith()
+		.status(200)
+		.body(body)
+		.toPact();
+}
+
+</code></pre></div><p><a href="https://git.panter.ch/panter/pan-103-consumer">Cosnumer Example</a></p><h2 id="service-provider"><a href="#service-provider" aria-hidden="true" class="header-anchor">#</a> Service Provider</h2><p>Add the following dependencies to your pom.xml:</p><div class="language- extra-class"><pre class="language-text"><code>&lt;dependency&gt;
+    &lt;groupId&gt;au.com.dius&lt;/groupId&gt;
+    &lt;artifactId&gt;pact-jvm-provider-junit5_2.11&lt;/artifactId&gt;
+    &lt;version&gt;3.5.18&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+
+</code></pre></div><p>Verify the expectations of all consumers against your service:</p><div class="language- extra-class"><pre class="language-text"><code>@TestTemplate
+@ExtendWith(PactVerificationInvocationContextProvider.class)
+void pactVerificationTestTemplate(PactVerificationContext context) {
+	context.verifyInteraction();
+}
+
+</code></pre></div><p><a href="https://git.panter.ch/panter/pan-103-provider">Provider Example</a></p></div><div class="page-edit"><!----><!----></div><div class="page-nav"><p class="inner"><span class="prev">
+        ← <a href="/cdc-docs/intro.html" class="prev">
+          Introduction
+        </a></span><span class="next"><a href="/cdc-docs/implementation.html">
+          Implementation
+        </a> →
+      </span></p></div></div></div></div>
+    <script src="/cdc-docs/assets/js/0.e62d8754.js" defer></script><script src="/cdc-docs/assets/js/app.96813fdf.js" defer></script>
+  </body>
+</html>

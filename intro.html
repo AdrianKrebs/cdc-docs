@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Introduction | Consumer Driven Contracts</title>
+    <meta name="description" content="">
+    
+    
+    <link rel="preload" href="/cdc-docs/assets/css/4.styles.308e5972.css" as="style"><link rel="preload" href="/cdc-docs/assets/js/app.96813fdf.js" as="script"><link rel="preload" href="/cdc-docs/assets/js/1.d2b9b925.js" as="script"><link rel="prefetch" href="/cdc-docs/assets/js/0.e62d8754.js"><link rel="prefetch" href="/cdc-docs/assets/js/2.a2d0e325.js"><link rel="prefetch" href="/cdc-docs/assets/js/3.3672a43d.js">
+    <link rel="stylesheet" href="/cdc-docs/assets/css/4.styles.308e5972.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/cdc-docs/" class="home-link router-link-active"><!----><span class="site-name">
+      Consumer Driven Contracts
+    </span></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><!----></div></header><div class="sidebar-mask"></div><div class="sidebar"><!----><ul class="sidebar-links"><li><a href="/cdc-docs/intro.html" class="active sidebar-link">Introduction</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/cdc-docs/intro.html#provider-workflow" class="sidebar-link">Provider Workflow</a></li><li class="sidebar-sub-header"><a href="/cdc-docs/intro.html#consumer-workflow" class="sidebar-link">Consumer Workflow</a></li></ul></li><li><a href="/cdc-docs/start.html" class="sidebar-link">Getting started</a></li><li><a href="/cdc-docs/implementation.html" class="sidebar-link">Implementation</a></li></ul></div><div class="page"><div class="content"><h1 id="introduction-to-cdc-testing"><a href="#introduction-to-cdc-testing" aria-hidden="true" class="header-anchor">#</a> Introduction to CDC Testing</h1><p>In order to countiniously and independently deploy software, the microservice architecture became state of the art for large scale enterprise applications.</p><p><img src="microservice.jpg" alt="architecture"></p><ul><li><b>Monolith: </b>detect breaking changes at <b>compile time</b></li><li><b>Micorservice: </b>detect breaking changes at <b>runtime</b></li></ul><p>Imagine the following situation: <br>
+Provider changes his interface, refactors, refactors tests as well, everything green<br>
+In the providers CI/CD pipline, all tests are passing<br>
+GO FOR Production! <br>
+Monitoring shows no Errors for the ProviderService<br></p><p>But suddenly the ConsumerService fails every request...<br>
+Blaming starts...<br>
+Maybe we should have tested this...<br>
+But how?<br></p><p>Obvious Solution: Service Tests  <br>
+Start the frontend. Start other consumed services. We need test data. In addition, we need tokens, certificates, authentication, ...<br>
+What a nightmare! This results in a full E2E test. But we only wanted test the interaction between the two services.<br>
+We want to know very early and fast that we break something.</p><p><b>Contracts come into play</b></p><p><img src="teams.jpg" alt="teams"></p><p>The <a href="https://docs.pact.io">Pact Framework</a> offers CDC testing implementations for most languages (Java, Javascript, Ruby, Swift, Android, Go). <br></p><h2 id="provider-workflow"><a href="#provider-workflow" aria-hidden="true" class="header-anchor">#</a> Provider Workflow</h2><p><b>Goal</b>: Don't deploy breaking changes</p><ul><li>Implements Changes</li><li>Get contracts from all consumers</li><li>Replay and verify interactions - Stop introduction of breaking change very early</li><li>Deploy service</li></ul><h2 id="consumer-workflow"><a href="#consumer-workflow" aria-hidden="true" class="header-anchor">#</a> Consumer Workflow</h2><p><b>Goal</b>: Dont consume resources which are not provided</p><ul><li>Implement changes</li><li>Generate contract</li><li>Push contract to provider</li><li>Each provider verifies contracts</li><li>Deploy service</li></ul><div class="tip custom-block"><p class="custom-block-title">TIP</p><p>Use the <a href="https://martinfowler.com/bliki/TolerantReader.html">Tolerant Reader Pattern</a> as a verification philosophy (unnecessary fields are ignored)</p></div></div><div class="page-edit"><!----><!----></div><div class="page-nav"><p class="inner"><!----><span class="next"><a href="/cdc-docs/start.html">
+          Getting started
+        </a> →
+      </span></p></div></div></div></div>
+    <script src="/cdc-docs/assets/js/1.d2b9b925.js" defer></script><script src="/cdc-docs/assets/js/app.96813fdf.js" defer></script>
+  </body>
+</html>
