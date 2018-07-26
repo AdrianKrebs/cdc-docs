@@ -4,11 +4,11 @@ title: Getting Started
 
 # Getting Started
 
-The following samples are written in Java with Junit5. See <a href="https://docs.pact.io/implementation-guides">implementation guide</a> for other languages.
+The following samples are written in Java with JUnit5. See <a href="https://docs.pact.io/implementation-guides">implementation guide</a> for other languages.
 
 ## Service Consumer
 
-Add the following dependency to your pom.xml:
+Add the following dependencies to your pom.xml:
 
 ```
 <dependency>
