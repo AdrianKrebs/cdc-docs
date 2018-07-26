@@ -3,11 +3,11 @@ title: Implementation
 ---
 
 ## DSL
-Pact provides an easy to use DSL to write your customer expectations.
+Pact provides an easy to use DSL to write your consumer expectations.
 
 
 ### Headers
-The Pact DSL offers a convinient way to do a matching on request and response headers.
+The Pact DSL offers a convenient way to do a matching on request and response headers.
 
 ```
 .given("default")
@@ -17,7 +17,8 @@ The Pact DSL offers a convinient way to do a matching on request and response he
 ```
 
 ### Authentication
-Sometimes you may need to add things to the requests that can't be persisted in a pact file. Examples of these would be authentication tokens, which have a small life span.
+Sometimes you may need to add things to the requests that can't be persisted in a pact file. 
+Examples of these would be authentication tokens, which have a small life span.
 
 ```
 @TargetRequestFilter
@@ -27,16 +28,19 @@ public void exampleRequestFilter(HttpRequest request) {
 ```
 
 ## Pact Broker
-How do could we share Pacts?
-Sharing contracts by email works pretty well. But as soon as you have more and more services using pact, you need some kind of versioning for your pacts.
-The soulution is called <a href="https://github.com/pact-foundation/pact_broker">Pact Broker</a>.
+How could we share Pact Contracts?
+
+Sharing contracts by email works pretty well. But as soon as you have more and more services with more and more consumers, 
+you need some kind of versioning for your pacts.
+
+The solution is called <a href="https://github.com/pact-foundation/pact_broker">Pact Broker</a>.
 
 A Pact Broker isn't just a file storage:
 
-- The Broker provides Versioning, Tagging, Rest-API
-- Dependency Graph 
-- Living documentation for free - For every new pact
-- Build Pipeline integration
+- It provides versioning and tagging via a RESTFul API
+- The Broker allows you to visualise dependencies between services and consumers 
+- Living documentation over all pact contracts
+- It allows to exchange contracts as a part of the build process
 
 ![broker](broker.jpg)
 

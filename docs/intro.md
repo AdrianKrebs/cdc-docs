@@ -10,32 +10,36 @@ In order to countiniously and independently deploy software, the microservice ar
 - <b>Monolith: </b>detect breaking changes at <b>compile time</b>
 - <b>Micorservice: </b>detect breaking changes at <b>runtime</b>
 
-Imagine the following situation: </br>
-Provider changes his interface, refactors, refactors tests as well, everything green</br>
+**Imagine the following situation:**
+
+The service provider changes his interface, refactors code, refactors tests as well, everything green</br>
 In the providers CI/CD pipline, all tests are passing</br>
-GO for Production! </br>
+GO for Production!</br>
 Monitoring shows no Errors for the ProviderService</br>
 
-But suddenly the ConsumerService fails every request...</br>
+But suddenly the ConsumerService fails on every request...</br>
 Blaming starts...</br>
 Maybe we should have tested this...</br>
 But how?</br>
 
-Obvious solution: Service Tests  </br>
-Start the frontend. Start other consumed services. We need test data. In addition, we need tokens, certificates, authentication, ...</br>
-What a nightmare! This results in a full E2E test. But we only wanted test the interaction between the two services.</br>
+**Obvious solution: End-to-End Tests**
+
+Start the frontend. Start other consumed services. We need test data. In addition, we need tokens, certificates, authentication, ...
+
+What a nightmare! This results in a full End-to-End Tests even though we wanted to test the interaction in between the two services only.
 We want to know very early and fast that we break something.
 
-<b>Contracts come into play</b>
+**Contracts come into play**
 
 ![teams](teams.jpg)
  
 
-The <a href="https://docs.pact.io">Pact Framework</a> offers CDC testing implementations for most languages (Java, Javascript, Ruby, Swift, Android, Go). <br>
+The <a href="https://docs.pact.io">Pact Framework</a> offers CDC testing implementations for most languages (Java, Javascript, Ruby, Swift, Android, Go). 
+Generally this includes a Domain Specific Language for generating JSON based contracts and a framework for executing tests against it.
 
 
 ## Provider Workflow
-<b>Goal</b>: Don't deploy breaking changes
+**Goal**: Don't deploy breaking changes
 - Implements Changes
 - Get contracts from all consumers 
 - Replay and verify interactions - Stop introduction of breaking change very early
