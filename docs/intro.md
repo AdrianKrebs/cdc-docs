@@ -11,26 +11,27 @@ In order to countiniously and independently deploy software, the microservice ar
 - <b>Micorservice: </b>detect breaking changes at <b>runtime</b>
 
 Imagine the following situation: </br>
-Provider changes his interface, refactors, refactors tests as well, everything green </br>
-In the providers CI/CD pipline, all tests are passing </br>
-GO FOR Production! </br>
+Provider changes his interface, refactors, refactors tests as well, everything green</br>
+In the providers CI/CD pipline, all tests are passing</br>
+GO for Production! </br>
 Monitoring shows no Errors for the ProviderService</br>
 
 But suddenly the ConsumerService fails every request...</br>
 Blaming starts...</br>
-Maybe we should have tested this!</br>
+Maybe we should have tested this...</br>
 But how?</br>
 
-Obvious Solution: Service Tests  </br>
-Start the frontend, oh it needs IP-Check-Service, oh we need test data... oh we need tokens, certificates, authentication, ...</br>
-What a nightmare! This results in a full E2E test. We only wanted test the interaction between the two services!</br>
-We want to know very early that we break something AND we want to know it fast!
+Obvious solution: Service Tests  </br>
+Start the frontend. Start other consumed services. We need test data. In addition, we need tokens, certificates, authentication, ...</br>
+What a nightmare! This results in a full E2E test. But we only wanted test the interaction between the two services.</br>
+We want to know very early and fast that we break something.
 
 <b>Contracts come into play</b>
 
 ![teams](teams.jpg)
+ 
 
-The <a href="https://docs.pact.io">Pact Framework</a> (no real alternative) offers CDC testing implementations for most languages (Java, Javascript, Ruby, Swift, Android, Go). <br>
+The <a href="https://docs.pact.io">Pact Framework</a> offers CDC testing implementations for most languages (Java, Javascript, Ruby, Swift, Android, Go). <br>
 
 
 ## Provider Workflow
@@ -38,7 +39,7 @@ The <a href="https://docs.pact.io">Pact Framework</a> (no real alternative) offe
 - Implements Changes
 - Get contracts from all consumers 
 - Replay and verify interactions - Stop introduction of breaking change very early
-- deploy service
+- Deploy service
 
 ## Consumer Workflow
 <b>Goal</b>: Dont consume resources which are not provided
@@ -46,7 +47,7 @@ The <a href="https://docs.pact.io">Pact Framework</a> (no real alternative) offe
 - Generate contract
 - Push contract to provider
 - Each provider verifies contracts
-- deploy service 
+- Deploy service 
 
 ::: tip
 Use the <a href="https://martinfowler.com/bliki/TolerantReader.html">Tolerant Reader Pattern</a> as a verification philosophy (unnecessary fields are ignored)
